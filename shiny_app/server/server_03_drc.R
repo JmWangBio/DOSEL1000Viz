@@ -33,7 +33,7 @@ observeEvent(input$compoundDRC, {
   rv_DRC$selected_pert_id <- selected_pert_id_df$pert_id[1]
   gene_choices_df <- dbGetQuery(con, "SELECT symbol FROM gene_info")
   gene_choices <- gene_choices_df$symbol
-  updateSelectInput(session, inputId = "geneDRC", choices = gene_choices, selected = "CTSD")
+  updateSelectInput(session, inputId = "geneDRC", choices = gene_choices, selected = "BIRC5")
 })
 
 # Update cell line selection based on the selected compound
