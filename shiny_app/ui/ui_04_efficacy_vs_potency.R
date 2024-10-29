@@ -9,6 +9,7 @@ tabPanel("Efficacy vs. Potency",
              selectInput("multipleInputChoice",
                          label = "Choose which to include multiple values:",
                          choices = c("Compound", "Gene", "Cell Line")),
+             helpText(HTML("<span style='color:blue;'>If no options appear after selecting a compound or cell line, it indicates no data are available for the selections. Please try selecting a different compound or cell line.</span>")),
              
              # Input UI for multiple selections
              selectizeInput("multipleInput", 

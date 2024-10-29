@@ -21,7 +21,7 @@ observe({
   compound_choices <- compound_choices_df$pert_name
   updateSelectizeInput(session, inputId = "compoundDRC", 
                        choices = compound_choices,
-                       server = TRUE)
+                       server = TRUE, selected = "bazedoxifene : BRD-K90195324 (REP.A026)")
 })
 
 # Update gene selection based on available data
@@ -33,7 +33,7 @@ observeEvent(input$compoundDRC, {
   rv_DRC$selected_pert_id <- selected_pert_id_df$pert_id[1]
   gene_choices_df <- dbGetQuery(con, "SELECT symbol FROM gene_info")
   gene_choices <- gene_choices_df$symbol
-  updateSelectInput(session, inputId = "geneDRC", choices = gene_choices)
+  updateSelectInput(session, inputId = "geneDRC", choices = gene_choices, selected = "CTSD")
 })
 
 # Update cell line selection based on the selected compound
@@ -48,7 +48,7 @@ observeEvent(list(input$compoundDRC, input$geneDRC), {
                                                   WHERE pert_id = %s AND model = 'gam';", 
                                                   rv_DRC$selected_pert_id))
   cell_line_choices <- cell_line_choices_df$cell_id
-  updateSelectInput(session, "cellLineDRC", choices = cell_line_choices)
+  updateSelectInput(session, "cellLineDRC", choices = cell_line_choices, selected = ifelse("MCF7" %in% cell_line_choices, "MCF7", cell_line_choices[1]))
 })
 
 # Update time selection based on the selected compound and cell line

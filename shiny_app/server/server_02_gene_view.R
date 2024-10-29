@@ -16,7 +16,7 @@ selected_GV_combinations <- reactiveVal(data.frame(
 observe({
   gene_choices_df <- dbGetQuery(con, "SELECT symbol FROM gene_info")
   gene_choices <- gene_choices_df$symbol
-  updateSelectInput(session, inputId = "geneGV", choices = gene_choices)
+  updateSelectInput(session, inputId = "geneGV", choices = gene_choices, selected = "BIRC5")
 })
 
 # Update cell line selection based on available data
@@ -24,7 +24,7 @@ observeEvent(input$geneGV, {
   req(input$geneGV)
   cell_line_choices_df <- dbGetQuery(con, "SELECT DISTINCT cell_id FROM combination")
   cell_line_choices <- cell_line_choices_df$cell_id
-  updateSelectInput(session, "cellLineGV", choices = cell_line_choices)
+  updateSelectInput(session, "cellLineGV", choices = cell_line_choices, selected = "MCF7")
 })
 
 # Update time selection based on the selected cell line
@@ -34,7 +34,7 @@ observeEvent(list(input$geneGV, input$cellLineGV), {
                                              WHERE cell_id = '%s'", 
                                              input$cellLineGV))
   time_choices <- time_choices_df$pert_time
-  updateSelectInput(session, "timeGV", choices = time_choices)
+  updateSelectInput(session, "timeGV", choices = time_choices, selected = ifelse(3 %in% time_choices, 3, time_choices[1]))
 })
 
 # Determine the gene ID, the list of combination IDs, and the list of combination gene IDs based on the selected gene, cell line, and time

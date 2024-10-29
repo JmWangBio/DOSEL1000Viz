@@ -16,7 +16,7 @@ observe({
   compound_choices <- compound_choices_df$pert_name
   updateSelectizeInput(session, inputId = "compoundCV", 
                        choices = compound_choices,
-                       server = TRUE)
+                       server = TRUE, selected = "bazedoxifene : BRD-K90195324 (REP.A026)")
 })
 
 # Update cell line selection based on the selected compound
@@ -32,7 +32,7 @@ observeEvent(input$compoundCV, {
                                                   WHERE pert_id = %s", 
                                                   rv_CV$selected_pert_id))
   cell_line_choices <- cell_line_choices_df$cell_id
-  updateSelectInput(session, "cellLineCV", choices = cell_line_choices)
+  updateSelectInput(session, "cellLineCV", choices = cell_line_choices, selected = ifelse("MCF7" %in% cell_line_choices, "MCF7", cell_line_choices[1]))
 })
 
 # Update time selection based on the selected compound and cell line

@@ -5,7 +5,8 @@ tabPanel("Compound View",
              helpText("This module can generate volcano plots to visualize compound-induced transcriptional 
                       changes for any compounds in the DOSE-L1000 database. 
                       It is especially useful for understanding the on-target and off-target effects of 
-                      different compounds across a wide array of cell lines, time points, and doses."),
+                      different compounds across a wide array of cell lines, time points, and doses.",
+                      HTML("<br><br><span style='color:red;'>red dots - adj. p-value &lt; 0.05</span>; <span style='color:gray;'gray dots - adj. p-value &gt; 0.05</span>")),
              helpText(""),
              selectizeInput("compoundCV", 
                             label = "Select Compound:",
