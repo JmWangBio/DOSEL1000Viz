@@ -1,0 +1,15 @@
+[project]
+name = "DOSEL1000Viz"
+version = "0.1.0"
+description = "An interactive Shiny application for visualizing compound-induced gene expression changes and dose-response data."
+
+[dependencies]
+DBI
+RSQLite
+dplyr
+shiny
+ggplot2
+plotly
+mgcv
+shinycssloaders
+shinyjs
