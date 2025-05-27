@@ -5,8 +5,8 @@ DOSE-L1000-Viz
 Junmin Wang
 05/26/2025
 
-This repo contains code and instructions to deploy the DOSE-L1000-Viz shiny app and 
-construct the backend database.
+This repo contains code and instructions to deploy the DOSE-L1000-Viz shiny app, 
+construct the backend database, and benchmarking.
 
 ## Introduction
 
@@ -46,6 +46,8 @@ To set up the database:
 
 1. Run `01_convert_rds_to_sqlite.R` to import the downloaded `.rds` files into a single SQLite database file.
 2. Then, execute `02_add_index_to_sqlite.R` to index the tables in the SQLite database.
+3. The scripts inside the `optional` folder show how to generate the `moa_info` and `cond_gene_sets` tables. You don't need 
+to run these scripts if your goal is just to generate the database.
 
 ## Shiny App
 
@@ -54,6 +56,21 @@ To run the Shiny app:
 1. Use the `app.R` file as the main entry point.
 2. The user interface and server functions for each tab are organized in separate files for modularity.
 
+## Benchmarking
+
+To demonstrate the robustness of GAM-derived signatures in the DOSE-L1000 database, we compared GAM-based signatures with those derived using 
+the characteristic direction (CD) method across replicated perturbation conditions. To establish a baseline, we also generated 2000 random pairs 
+of perturbation conditions across the dataset. For each pair, Jaccard indices were calculated for both methods.
+
+To reproduce the analysis:
+
+1. Download CD-based signatures and GAM-based signatures from the L1000CDS2 portal and DOSE-L1000-Viz (https://www.dosel1000.com).
+2. Run `01_get_inter_batch_and_rand_pairs.R` to generate pairs of conditions replicated across batches and random pairs of conditions. 
+3. Run `02_calc_jaccard_inter_batch_and_rand_chdir.R` and `03_calc_jaccard_inter_batch_and_rand_gam.R` to calculate the distributions of Jaccard indices 
+for each method.
+
 ## References
 
 Wang J, Novick S. DOSE-L1000: unveiling the intricate landscape of compound-induced transcriptional changes. Bioinformatics. 2023;39(11):btad683.
+
+Duan Q, Reid S, Clark N et al. L1000CDS2: LINCS L1000 characteristic direction signatures search engine. npj Syst Biol Appl. 2016;2:16015.

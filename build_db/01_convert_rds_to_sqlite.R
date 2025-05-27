@@ -1,8 +1,7 @@
 
 ## Author: Junmin Wang
-## Date: 10/27/2024
-## Note: To build the DOSE-L1000 sqlite database, one needs to provide the correct path 
-## to the rds files (lines 17 - 22 and lines 87 - 93) and the path to write the database file to (line 14). 
+## Date: 05/23/25
+## Note: To build the DOSE-L1000 sqlite database, one needs to provide the correct path to the rds files and the path to write the database file to.
 ## The rds files can be downloaded from https://www.dosel1000.com under the "Download Data" tab.
 
 ## load libraries
@@ -15,41 +14,43 @@ con <- dbConnect(RSQLite::SQLite(), "/path/to/DOSE_L1000.db")
 
 ## load DOSE-L1000 data
 pert <- readRDS(file = "/path/to/pert.rds")
-combination <- readRDS(file = "/path/to/combination.rds")
-combination_gene <- readRDS(file = "/path/to/combination_gene.rds")
+condition <- readRDS(file = "/path/to/condition.rds")
+condition_gene <- readRDS(file = "/path/to/condition_gene.rds")
 test <- readRDS(file = "/path/to/test.rds")
 interaction <- readRDS(file = "/path/to/interaction.rds")
 gene_info <- readRDS(file = "/path/to/gene_info.rds")
 
 ## create the tables with SQL and define the primary key
 create_table_query_1 <- "CREATE TABLE pert (
-pert_id INTEGER PRIMARY KEY,
-pert_name TEXT
+broad_id TEXT PRIMARY KEY,
+cpd_name TEXT
 );"
 
-create_table_query_2 <- "CREATE TABLE combination (
-comb_id INTEGER PRIMARY KEY,
-pert_id INTEGER,
+create_table_query_2 <- "CREATE TABLE condition (
+cond_id INTEGER PRIMARY KEY,
+broad_id TEXT,
 cell_id TEXT,
 pert_time REAL,
-model TEXT
+batch_id TEXT,
+model TEXT,
+broad_batch_id TEXT
 );"
 
-create_table_query_3 <- "CREATE TABLE combination_gene (
-comb_gene_id INTEGER PRIMARY KEY,
-comb_id INTEGER,
+create_table_query_3 <- "CREATE TABLE condition_gene (
+cond_gene_id INTEGER PRIMARY KEY,
+cond_id INTEGER,
 gene INTEGER
 );"
 
 create_table_query_4 <- "CREATE TABLE test (
-comb_gene_id INTEGER,
+cond_gene_id INTEGER,
 pert_dose REAL,
 Diff REAL,
 pval REAL
 );"
 
 create_table_query_5 <- "CREATE TABLE interaction (
-comb_gene_id INTEGER PRIMARY KEY,
+cond_gene_id INTEGER PRIMARY KEY,
 lpotency REAL,
 se_lpotency REAL,
 lefficacy REAL,
@@ -72,9 +73,9 @@ dbExecute(con, create_table_query_6)
 ## write to the database
 dbWriteTable(con, name = "pert", value = get("pert"),
              append = TRUE, row.names = FALSE)
-dbWriteTable(con, name = "combination", value = get("combination"),
+dbWriteTable(con, name = "condition", value = get("condition"),
              append = TRUE, row.names = FALSE)
-dbWriteTable(con, name = "combination_gene", value = get("combination_gene"),
+dbWriteTable(con, name = "condition_gene", value = get("condition_gene"),
              append = TRUE, row.names = FALSE)
 dbWriteTable(con, name = "test", value = get("test"),
              append = TRUE, row.names = FALSE)
@@ -94,7 +95,7 @@ plate_GSE92742 <- readRDS(file = "/path/to/plate_GSE92742.rds")
 
 ## create the tables with SQL and define the primary key
 create_table_query_7 <- "CREATE TABLE drc (
-comb_gene_id INTEGER,
+cond_gene_id INTEGER,
 pert_dose REAL,
 plate_id INTEGER,
 abundance REAL
@@ -127,6 +128,41 @@ dbWriteTable(con, name = "dmso", value = get("dmso_GSE92742"),
 dbWriteTable(con, name = "plate", value = get("plate_GSE70138"),
              append = TRUE, row.names = FALSE)
 dbWriteTable(con, name = "plate", value = get("plate_GSE92742"),
+             append = TRUE, row.names = FALSE)
+
+## load remaining data
+cond_gene_sets <- readRDS(file = "/path/to/cond_gene_sets.rds")
+moa_info <- readRDS(file = "/path/to/moa_info.rds")
+cell_info <- readRDS(file = "/path/to/cell_info.rds")
+
+## create the tables with SQL and define the primary key
+create_table_query_10 <- "CREATE TABLE cond_gene_sets (
+cond_id INTEGER,
+pert_dose REAL,
+up_genes TEXT,
+down_genes TEXT
+);"
+
+create_table_query_11 <- "CREATE TABLE moa_info (
+cpd_name TEXT PRIMARY KEY,
+moa TEXT
+);"
+
+create_table_query_12 <- "CREATE TABLE cell_info (
+cell_id TEXT PRIMARY KEY,
+primary_site TEXT
+);"
+
+dbExecute(con, create_table_query_10)
+dbExecute(con, create_table_query_11)
+dbExecute(con, create_table_query_12)
+
+## write to the database
+dbWriteTable(con, name = "cond_gene_sets", value = get("cond_gene_sets"),
+             append = TRUE, row.names = FALSE)
+dbWriteTable(con, name = "moa_info", value = get("moa_info"),
+             append = TRUE, row.names = FALSE)
+dbWriteTable(con, name = "cell_info", value = get("cell_info"),
              append = TRUE, row.names = FALSE)
 
 ## disconnect from the database
