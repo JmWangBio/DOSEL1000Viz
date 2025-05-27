@@ -3,7 +3,7 @@
 DOSE-L1000-Viz
 ================
 Junmin Wang
-10/27/2024
+05/26/2025
 
 This repo contains code and instructions to deploy the DOSE-L1000-Viz shiny app and 
 construct the backend database.
@@ -23,11 +23,16 @@ The following R libraries are required:
 - DBI
 - RSQLite
 - dplyr
+- tidyr
 - shiny
 - ggplot2
 - plotly
 - mgcv
 - shinycssloaders
+- shinyjs
+- stringr
+- DT
+- jsonlite
 
 ## Database Generation
 
