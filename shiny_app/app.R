@@ -61,7 +61,7 @@ server <- function(input, output, session) {
   }
   
   # Connect to the SQLite database
-  con <- dbConnect(RSQLite::SQLite(), "/path/to/DOSE_L1000_052325.db", flags = SQLITE_RO)
+  con <- dbConnect(RSQLite::SQLite(), "/path/to/DOSE_L1000.db", flags = SQLITE_RO)
   
   # Load default data
   load("default_data.RData")
