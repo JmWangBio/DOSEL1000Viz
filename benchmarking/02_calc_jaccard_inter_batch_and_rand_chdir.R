@@ -1,7 +1,7 @@
 
 ## Author: Junmin Wang
 ## Date: 05/23/25
-## This script assumes the change direction (CDS2) data has been downloaded. 
+## This script assumes the change direction (CDS2) data has been downloaded and formatted. 
 ## It calculates Jaccard indices for all pairs of perturbation conditions.
 ## Make sure to update the paths to the input files.
 

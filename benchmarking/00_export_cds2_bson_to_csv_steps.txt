@@ -1,0 +1,18 @@
+
+## Author: Junmin Wang
+## Date: 05/23/25
+## This file outlines the steps needed to create the CSV file named "cpcd-gse70138-cp.csv", which is required for running "01_get_inter_batch_and_rand_pairs.R". Please make sure to update the file paths.
+## "cpcd-gse70138.bson" and "cpcd-gse70138.metadata.json" can be downloaded from https://maayanlab.cloud/public/L1000CDS_download/
+
+# 1. Prepare directory
+mkdir -p /path/to/dump/l1000
+mv cpcd-gse70138.bson cpcd-gse70138.metadata.json /path/to/dump/l1000
+
+# 2. Start MongoDB
+mongod --dbpath /path/to/db --fork --logpath /path/to/mongod.log
+
+# 3. Restore BSON
+mongorestore --dir="/path/to/dump"
+
+# 4. Export to CSV, keeping only small molecules (i.e., trt_cp)
+mongoexport --db=l1000 --collection="cpcd-gse70138" --type=csv --fields=pert_id,cell_id,pert_dose,pert_time,batch,chdirLm,upGenes,dnGenes,pvalue --query='{ "pert_type": "trt_cp" }' --out="/path/to/cpcd-gse70138-cp.csv"

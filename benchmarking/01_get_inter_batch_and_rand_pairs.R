@@ -3,8 +3,7 @@
 ## Date: 05/23/25
 ## This script finds repeated perturbation conditions in both DOSE-L1000 (GAM) and L1000CDS2, generating inter-batch and random pairs.
 ## Make sure to update the paths to the input and output files.
-## "cpcd-gse70138.bson" can be downloaded from https://maayanlab.cloud/public/L1000CDS_download/
-## The bson file can then be filtered to include only compounds and converted to CSV format following the instructions provided on the webpage.
+## "cpcd-gse70138-cp.csv" can be created following the instructions provided in "00_export_cds2_bson_to_csv_steps.txt".
 ## "test.rds", "condition.rds", and "condition_gene.rds" can be downloaded from https://www.dosel1000.com under the "Download Data" tab.
 
 ## load libraries

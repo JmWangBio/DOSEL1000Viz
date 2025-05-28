@@ -65,8 +65,9 @@ of perturbation conditions across the dataset. For each pair, Jaccard indices we
 To reproduce the analysis:
 
 1. Download CD-based signatures and GAM-based signatures from the L1000CDS2 portal and DOSE-L1000-Viz (https://www.dosel1000.com).
-2. Run `01_get_inter_batch_and_rand_pairs.R` to generate pairs of conditions replicated across batches and random pairs of conditions. 
-3. Run `02_calc_jaccard_inter_batch_and_rand_chdir.R` and `03_calc_jaccard_inter_batch_and_rand_gam.R` to calculate the distributions of Jaccard indices 
+2. Follow steps outlined in `00_export_cds2_bson_to_csv_steps.txt` to format CD-based signatures.
+3. Run `01_get_inter_batch_and_rand_pairs.R` to generate pairs of conditions replicated across batches and random pairs of conditions. 
+4. Run `02_calc_jaccard_inter_batch_and_rand_chdir.R` and `03_calc_jaccard_inter_batch_and_rand_gam.R` to calculate the distributions of Jaccard indices 
 for each method.
 
 ## References
